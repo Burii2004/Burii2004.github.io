@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <title>Исследование траекторий взросления у подростков</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            margin: 0;
+            padding: 40px 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px #0001;
+            padding: 30px 20px;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .description {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.5;
+            margin-bottom: 40px;
+            text-align: left;
+            padding: 0 10px;
+        }
+        .rlrs {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+        }
+        .slider-block {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 550px;
+            background: #F9F9F9;
+            padding: 25px 15px;
+            border-radius: 8px;
+            width: 140px;
+            box-sizing: border-box;
+            position: relative;
+        }
+        .slider-label-top,
+        .slider-label-bottom {
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 5px;
+            font-weight: normal;
+            font-size: 14px;
+            color: #333;
+        }
+        .sliders-pair {
+            margin: auto 0;
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            align-items: center;
+        }
+        .vertical-slider {
+            writing-mode: vertical-lr;
+            direction: rtl;
+            width: 18px;
+            height: 300px;
+            margin: 0;
+            accent-color: #3a7ee6;
+            cursor: pointer;
+        }
+        .show-results-btn {
+            display: block;
+            margin: 30px auto 0;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #3a7ee6;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .show-results-btn:hover {
+            background-color: #2a5bb8;
+        }
+        .results-container {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            display: none;
+            font-size: 16px;
+            color: #333;
+            line-height: 1.5;
+            white-space: pre-line; /* чтобы переносы строк отображались */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Исследование траекторий взросления<br>Шкалы самооценки</h2>
+        <div class="description">
+            Перед тобой две шкалы с бегунками:
+
+<br>1. Шкала «Человек, который хочет стать взрослым – не хочет становиться взрослым»
+
+<br>2. Шкала «Взрослый – Ребенок»
+<br>
+<br>В каждой шкале есть два столбца с бегунками:
+
+<br>Левый столбец – отражает, как ты видишь себя сейчас.
+
+<br>Правый столбец – отражает, каким ты хотел бы быть в идеале.
+<br>
+<br>Чем ближе бегунок к одному из концов, тем больше ты считаешь, что это про тебя.
+
+<br>После того, как бегунки будут расставлены, нажми кнопку «Показать результаты». Затем скопируй появившиеся данные и вставь их в гугл-форму.
+<br>
+<br>Спасибо за участие!
+        </div>
+        <div class="rlrs">
+            <div class="slider-block">
+                <div class="slider-label-top">Человек, который хочет стать взрослым</div>
+                <div class="sliders-pair">
+                    <input class="vertical-slider" type="range" min="0" max="100" value="0" orient="vertical" data-slider-index="0" data-block-index="0" />
+                    <input class="vertical-slider" type="range" min="0" max="100" value="0" orient="vertical" data-slider-index="1" data-block-index="0" />
+                </div>
+                <div class="slider-label-bottom">Человек, который не хочет становиться взрослым</div>
+            </div>
+            <div class="slider-block">
+                <div class="slider-label-top">Взрослый</div>
+                <div class="sliders-pair">
+                    <input class="vertical-slider" type="range" min="0" max="100" value="0" orient="vertical" data-slider-index="0" data-block-index="1" />
+                    <input class="vertical-slider" type="range" min="0" max="100" value="0" orient="vertical" data-slider-index="1" data-block-index="1" />
+                </div>
+                <div class="slider-label-bottom">Ребенок</div>
+            </div>
+        </div>
+
+        <button class="show-results-btn" id="showResultsBtn">Показать результаты</button>
+
+        <div class="results-container" id="resultsContainer"></div>
+    </div>
+
+    <script>
+        // Функция для конвертации значения слайдера в сантиметры с запятой
+        function convertValueToCm(value) {
+            return (value / 10).toFixed(1).replace('.', ',');
+        }
+
+        // Обновляем data-атрибуты с текущими значениями (для хранения)
+        function updateSliderData() {
+            document.querySelectorAll('.vertical-slider').forEach(slider => {
+                slider.dataset.cmValue = convertValueToCm(slider.value);
+            });
+        }
+
+        // Инициализация данных при загрузке
+        updateSliderData();
+
+        // Обновляем data-атрибут при изменении слайдера
+        document.querySelectorAll('.vertical-slider').forEach(slider => {
+            slider.addEventListener('input', () => {
+                slider.dataset.cmValue = convertValueToCm(slider.value);
+            });
+        });
+
+        document.getElementById('showResultsBtn').addEventListener('click', () => {
+            // Блокируем все слайдеры
+            document.querySelectorAll('.vertical-slider').forEach(slider => {
+                slider.disabled = true;
+            });
+
+            // Формируем результаты по шкалам
+            const resultsContainer = document.getElementById('resultsContainer');
+            const scalesCount = 2; // у вас 2 блока слайдеров
+
+            let resultsText = '';
+
+            for (let blockIndex = 0; blockIndex < scalesCount; blockIndex++) {
+                // Получаем слайдеры этого блока
+                const sliders = Array.from(document.querySelectorAll(`.vertical-slider[data-block-index="${blockIndex}"]`));
+                // Получаем значения в формате с запятой
+                const values = sliders.map(s => s.dataset.cmValue || '0,0');
+                // Формируем строку
+                resultsText += `Шкала ${blockIndex + 1}: ${values.join(' / ')}\n`;
+            }
+
+            // Показываем результаты
+            resultsContainer.textContent = resultsText.trim();
+            resultsContainer.style.display = 'block';
+
+            // Скрываем кнопку
+            document.getElementById('showResultsBtn').style.display = 'none';
+        });
+    </script>
+</body>
+</html>
