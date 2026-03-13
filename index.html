@@ -17,69 +17,71 @@
             background: #fff;
             border-radius: 10px;
             box-shadow: 0 2px 8px #0001;
-            padding: 30px 20px;
+            padding: 20px 15px;
         }
         h2 {
             text-align: center;
             margin-bottom: 20px;
+            font-size: 20px;
         }
         .description {
-            font-size: 16px;
+            font-size: 14px;
             color: #555;
             line-height: 1.5;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
             text-align: left;
-            padding: 0 10px;
+            padding: 0 5px;
         }
         .rlrs {
             display: flex;
-            gap: 40px;
+            gap: 20px;
             justify-content: center;
+            flex-wrap: wrap;
         }
         .slider-block {
             display: flex;
             flex-direction: column;
             align-items: center;
-            height: 450px;
+            height: 350px;
             background: #F9F9F9;
-            padding: 25px 15px;
+            padding: 20px 10px;
             border-radius: 8px;
-            width: 140px;
+            width: 110px;
             box-sizing: border-box;
             position: relative;
         }
         .slider-label-top,
         .slider-label-bottom {
-            min-height: 50px;
+            min-height: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
             padding: 0 5px;
             font-weight: normal;
-            font-size: 14px;
+            font-size: 12px;
             color: #333;
         }
         .sliders-pair {
             margin: auto 0;
             display: flex;
-            gap: 12px;
+            gap: 8px;
             justify-content: center;
             align-items: center;
         }
         .vertical-slider {
             writing-mode: vertical-lr;
             direction: rtl;
-            width: 18px;
-            height: 300px;
+            width: 16px;
+            height: 250px;
             margin: 0;
             accent-color: #3a7ee6;
             cursor: pointer;
         }
         .show-results-btn {
             display: block;
-            margin: 30px auto 0;
-            padding: 10px 20px;
+            margin: 25px auto 0;
+            padding: 12px 24px;
             font-size: 16px;
             background-color: #3a7ee6;
             color: white;
@@ -87,87 +89,70 @@
             border-radius: 6px;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            box-sizing: border-box;
+            width: 100%;
+            max-width: 300px;
         }
         .show-results-btn:hover {
             background-color: #2a5bb8;
         }
         .results-container {
-            margin-top: 30px;
-            padding: 20px;
+            margin-top: 25px;
+            padding: 18px;
             background: #f8f9fa;
             border-radius: 8px;
             display: none;
-            font-size: 16px;
+            font-size: 14px;
             color: #333;
             line-height: 1.5;
             white-space: pre-line;
         }
-
-        /* Мобильная адаптация */
-        @media (max-width: 768px) {
+        @media (max-width: 480px) {
             body {
                 padding: 10px 0;
             }
             .container {
-                padding: 20px 15px;
-                margin: 10px;
+                padding: 15px 10px;
+                margin: 0 10px;
                 border-radius: 8px;
             }
+            h2 {
+                font-size: 18px;
+                margin-bottom: 15px;
+            }
             .description {
-                font-size: 15px;
-                margin-bottom: 30px;
-                padding: 0 5px;
+                font-size: 13px;
+                margin-bottom: 25px;
             }
             .rlrs {
-                flex-direction: column;
-                gap: 20px;
-                margin-bottom: 20px;
+                gap: 15px;
             }
             .slider-block {
-                flex-direction: row;
-                height: auto;
-                width: 100%;
-                max-width: 400px;
-                padding: 20px;
-                height: 120px;
+                height: 320px;
+                width: 100px;
+                padding: 15px 8px;
             }
             .slider-label-top,
             .slider-label-bottom {
-                min-height: auto;
-                font-size: 16px;
-                writing-mode: horizontal-tb;
-                width: 80px;
-                height: 100%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-            .slider-label-top {
-                order: 1;
+                min-height: 35px;
+                font-size: 11px;
             }
             .sliders-pair {
-                order: 2;
-                gap: 20px;
-                flex-direction: column;
+                gap: 6px;
             }
             .vertical-slider {
-                writing-mode: horizontal-tb;
-                direction: ltr;
-                width: 250px;
-                height: 30px;
-                transform: rotate(-90deg);
-                transform-origin: center;
-                margin: 0;
-                accent-color: #3a7ee6;
-                -webkit-appearance: slider-horizontal;
-            }
-            .slider-label-bottom {
-                order: 3;
-                writing-mode: horizontal-tb;
+                width: 14px;
+                height: 230px;
             }
             .show-results-btn {
-                font-size: 18px;
-                padding: 15px 30px;
+                padding: 14px 20px;
+                font-size: 15px;
+                margin: 20px auto 0;
+            }
+            .results-container {
+                font-size: 13px;
+                padding: 15px;
+                margin-top: 20px;
             }
         }
     </style>
@@ -199,8 +184,8 @@
             <div class="slider-block">
                 <div class="slider-label-top">Взрослый</div>
                 <div class="sliders-pair">
-                    <input class="vertical-slider" type="range" min="0" max="100" value="50" orient="vertical" data-block-index="0" />
-                    <input class="vertical-slider" type="range" min="0" max="100" value="50" orient="vertical" data-block-index="0" />
+                    <input class="vertical-slider" type="range" min="0" max="100" value="0" orient="vertical" data-block-index="0" />
+                    <input class="vertical-slider" type="range" min="0" max="100" value="0" orient="vertical" data-block-index="0" />
                 </div>
                 <div class="slider-label-bottom">Ребенок</div>
             </div>
@@ -216,3 +201,51 @@
         function convertValueToCm(value) {
             const numValue = parseFloat(value) || 0;
             return (numValue / 10).toFixed(1).replace('.', ',');
+        }
+
+        // Обработчик изменения слайдеров (только для визуальной обратной связи, если нужно)
+        document.querySelectorAll('.vertical-slider').forEach(slider => {
+            slider.addEventListener('input', function() {
+                // Можно добавить визуализацию значения здесь, если требуется
+                console.log('Slider value:', this.value, '->', convertValueToCm(this.value));
+            });
+        });
+
+        // Обработчик кнопки "Показать результаты"
+        document.getElementById('showResultsBtn').addEventListener('click', function() {
+            console.log('Button clicked - collecting results'); // Отладка
+
+            // Блокируем все слайдеры
+            document.querySelectorAll('.vertical-slider').forEach(slider => {
+                slider.disabled = true;
+                console.log('Disabled slider:', slider.value); // Отладка
+            });
+
+            const resultsContainer = document.getElementById('resultsContainer');
+            let resultsText = '';
+
+            // Получаем все слайдеры блока 0 (единственная шкала)
+            const sliders = Array.from(document.querySelectorAll('.vertical-slider[data-block-index="0"]'));
+            console.log('Found sliders:', sliders.length); // Отладка
+
+            if (sliders.length === 2) {
+                const values = sliders.map(slider => convertValueToCm(slider.value));
+                resultsText = `скопируйте эти данные и вставьте в гугл форму: ${values.join(' / ')}`;
+                console.log('Results text:', resultsText); // Отладка
+            } else {
+                resultsText = 'Ошибка: не найдены слайдеры\\\\\\\\n';
+                console.error('Sliders not found');
+            }
+
+            // Показываем результаты
+            resultsContainer.textContent = resultsText.trim();
+            resultsContainer.style.display = 'block';
+
+            // Скрываем кнопку
+            this.style.display = 'none';
+
+            console.log('Results shown successfully'); // Отладка
+        });
+    </script>
+</body>
+</html>
