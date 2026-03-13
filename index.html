@@ -39,7 +39,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            height: 550px;
+            height: 450px;
             background: #F9F9F9;
             padding: 25px 15px;
             border-radius: 8px;
@@ -49,7 +49,7 @@
         }
         .slider-label-top,
         .slider-label-bottom {
-            min-height: 100px;
+            min-height: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -99,36 +99,26 @@
             font-size: 16px;
             color: #333;
             line-height: 1.5;
-            white-space: pre-line; /* чтобы переносы строк отображались */
+            white-space: pre-line;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>Исследование траекторий взросления<br>Шкалы самооценки</h2>
+        <h2>Исследование траекторий взросления<br>Шкала самооценки</h2>
         <div class="description">
-Перед Вами две шкалы с бегунками:
-
-
-<br>1. Шкала «Человек, который хочет стать взрослым – не хочет становиться взрослым»
-
-
-<br>2. Шкала «Взрослый – Ребенок»
+Перед Вами шкала с бегунками.
 
 <br>
 
-<br>В каждой шкале есть два столбца с бегунками:
-
+<br>В шкале есть два столбца с бегунками:
 
 <br>Левый столбец – отражает, как Вы видите себя сейчас.
-
 
 <br>Правый столбец – отражает, каким Вы хотели бы быть в идеале.
 <br>
 
-
 <br>Чем ближе бегунок к одному из концов, тем больше Вы считаете, что это про Вас.
-
 
 <br>После того, как бегунки будут расставлены, нажмите кнопку «Показать результаты». Затем скопируйте появившиеся данные и вставьте их в гугл-форму.
 
@@ -138,18 +128,10 @@
         </div>
         <div class="rlrs">
             <div class="slider-block">
-                <div class="slider-label-top">Человек, который хочет стать взрослым</div>
-                <div class="sliders-pair">
-                    <input class="vertical-slider" type="range" min="0" max="100" value="0" orient="vertical" data-slider-index="0" data-block-index="0" />
-                    <input class="vertical-slider" type="range" min="0" max="100" value="0" orient="vertical" data-slider-index="1" data-block-index="0" />
-                </div>
-                <div class="slider-label-bottom">Человек, который не хочет становиться взрослым</div>
-            </div>
-            <div class="slider-block">
                 <div class="slider-label-top">Взрослый</div>
                 <div class="sliders-pair">
-                    <input class="vertical-slider" type="range" min="0" max="100" value="0" orient="vertical" data-slider-index="0" data-block-index="1" />
-                    <input class="vertical-slider" type="range" min="0" max="100" value="0" orient="vertical" data-slider-index="1" data-block-index="1" />
+                    <input class="vertical-slider" type="range" min="0" max="100" value="0" orient="vertical" data-block-index="0" />
+                    <input class="vertical-slider" type="range" min="0" max="100" value="0" orient="vertical" data-block-index="0" />
                 </div>
                 <div class="slider-label-bottom">Ребенок</div>
             </div>
@@ -161,47 +143,44 @@
     </div>
 
     <script>
-        // Функция для конвертации значения слайдера в сантиметры с запятой
+        // Функция для конвертации значения слайдера в см с запятой (исправленная)
         function convertValueToCm(value) {
-            return (value / 10).toFixed(1).replace('.', ',');
+            const numValue = parseFloat(value) || 0;
+            return (numValue / 10).toFixed(1).replace('.', ',');
         }
 
-        // Обновляем data-атрибуты с текущими значениями (для хранения)
-        function updateSliderData() {
-            document.querySelectorAll('.vertical-slider').forEach(slider => {
-                slider.dataset.cmValue = convertValueToCm(slider.value);
-            });
-        }
-
-        // Инициализация данных при загрузке
-        updateSliderData();
-
-        // Обновляем data-атрибут при изменении слайдера
+        // Обработчик изменения слайдеров (только для визуальной обратной связи, если нужно)
         document.querySelectorAll('.vertical-slider').forEach(slider => {
-            slider.addEventListener('input', () => {
-                slider.dataset.cmValue = convertValueToCm(slider.value);
+            slider.addEventListener('input', function() {
+                // Можно добавить визуализацию значения здесь, если требуется
+                console.log('Slider value:', this.value, '->', convertValueToCm(this.value));
             });
         });
 
-        document.getElementById('showResultsBtn').addEventListener('click', () => {
+        // Обработчик кнопки "Показать результаты"
+        document.getElementById('showResultsBtn').addEventListener('click', function() {
+            console.log('Button clicked - collecting results'); // Отладка
+
             // Блокируем все слайдеры
             document.querySelectorAll('.vertical-slider').forEach(slider => {
                 slider.disabled = true;
+                console.log('Disabled slider:', slider.value); // Отладка
             });
 
-            // Формируем результаты по шкалам
             const resultsContainer = document.getElementById('resultsContainer');
-            const scalesCount = 2; // у вас 2 блока слайдеров
-
             let resultsText = '';
 
-            for (let blockIndex = 0; blockIndex < scalesCount; blockIndex++) {
-                // Получаем слайдеры этого блока
-                const sliders = Array.from(document.querySelectorAll(`.vertical-slider[data-block-index="${blockIndex}"]`));
-                // Получаем значения в формате с запятой
-                const values = sliders.map(s => s.dataset.cmValue || '0,0');
-                // Формируем строку
-                resultsText += `Шкала ${blockIndex + 1}: ${values.join(' / ')}\n`;
+            // Получаем все слайдеры блока 0 (единственная шкала)
+            const sliders = Array.from(document.querySelectorAll('.vertical-slider[data-block-index="0"]'));
+            console.log('Found sliders:', sliders.length); // Отладка
+
+            if (sliders.length === 2) {
+                const values = sliders.map(slider => convertValueToCm(slider.value));
+                resultsText = `скопируйте эти данные и вставьте в гугл форму: ${values.join(' / ')}\n`;
+                console.log('Results text:', resultsText); // Отладка
+            } else {
+                resultsText = 'Ошибка: не найдены слайдеры\n';
+                console.error('Sliders not found');
             }
 
             // Показываем результаты
@@ -209,7 +188,9 @@
             resultsContainer.style.display = 'block';
 
             // Скрываем кнопку
-            document.getElementById('showResultsBtn').style.display = 'none';
+            this.style.display = 'none';
+
+            console.log('Results shown successfully'); // Отладка
         });
     </script>
 </body>
